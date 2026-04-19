@@ -32,6 +32,7 @@ class CategoryListScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.green[800],
+        foregroundColor: Colors.white,
         onPressed: () {
            // Show Add Category dialog
         },

@@ -4,7 +4,10 @@ import 'package:go_router/go_router.dart';
 import 'providers/auth_provider.dart';
 import 'screens/auth/login_screen.dart';
 import 'screens/dashboards/owner_dashboard.dart';
-
+import 'screens/dashboards/superadmin_dashboard.dart';
+import 'screens/dashboards/admin_dashboard.dart';
+import 'screens/dashboards/manager_dashboard.dart';
+import 'screens/dashboards/employee_pos_screen.dart';
 void main() {
   runApp(
     MultiProvider(
@@ -61,19 +64,19 @@ class _ShopJSAppState extends State<ShopJSApp> {
         // Add other roles here
         GoRoute(
           path: '/superadmin',
-          builder: (context, state) => const Scaffold(body: Center(child: Text('SuperAdmin Dashboard'))),
+          builder: (context, state) => const SuperAdminDashboard(),
         ),
         GoRoute(
           path: '/admin',
-          builder: (context, state) => const Scaffold(body: Center(child: Text('Admin Dashboard'))),
+          builder: (context, state) => const AdminDashboard(),
         ),
         GoRoute(
           path: '/manager',
-          builder: (context, state) => const Scaffold(body: Center(child: Text('Manager Dashboard'))),
+          builder: (context, state) => const ManagerDashboard(),
         ),
         GoRoute(
           path: '/employee',
-          builder: (context, state) => const Scaffold(body: Center(child: Text('Employee POS Screen'))),
+          builder: (context, state) => const EmployeePOSScreen(),
         ),
       ],
     );

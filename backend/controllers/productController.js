@@ -2,10 +2,17 @@ const Product = require('../models/Product');
 
 const getAllProducts = async (req, res) => {
   try {
-    const shopId = req.user.shopId;
     const { category, search, lowStock, page = 1, limit = 20 } = req.query;
+    let query = { isActive: true };
 
-    let query = { shopId, isActive: true };
+    if (req.user.role === 'superadmin' || req.user.role === 'admin') {
+      if (req.query.shopId) {
+        query.shopId = req.query.shopId;
+      }
+      // If no shopId is provided for admin, it views ALL products globally
+    } else {
+      query.shopId = req.user.shopId;
+    }
 
     if (category) {
       // Assumes we populate category or search by category ID (this handles string matching for simplicity, 
@@ -80,12 +87,19 @@ const getProductById = async (req, res) => {
 };
 
 const addProduct = async (req, res) => {
-  const shopId = req.user.shopId;
+  // Determine final shopId mapping
+  let finalShopId = req.user.shopId;
+  if ((req.user.role === 'superadmin' || req.user.role === 'admin') && req.body.shopId) {
+    finalShopId = req.body.shopId;
+  }
+
+  if (!finalShopId) return res.status(400).json({ message: 'A Product must be assigned to a Shop.' });
+
   const { categoryId, name, sku, barcode, unit, costPrice, sellingPrice, stock_count, low_stock_threshold, imageUrl } = req.body;
 
   try {
     const product = await Product.create({
-      shopId,
+      shopId: finalShopId,
       categoryId,
       name,
       sku,
@@ -108,11 +122,15 @@ const addProduct = async (req, res) => {
 
 const updateProduct = async (req, res) => {
   const { id } = req.params;
-  const shopId = req.user.shopId;
   const { categoryId, name, sku, barcode, unit, costPrice, sellingPrice, stock_count, low_stock_threshold, imageUrl } = req.body;
 
   try {
-    const product = await Product.findOne({ _id: id, shopId });
+    let query = { _id: id };
+    if (req.user.role !== 'superadmin' && req.user.role !== 'admin') {
+      query.shopId = req.user.shopId;
+    }
+
+    const product = await Product.findOne(query);
 
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });
@@ -140,10 +158,14 @@ const updateProduct = async (req, res) => {
 
 const deleteProduct = async (req, res) => {
   const { id } = req.params;
-  const shopId = req.user.shopId;
 
   try {
-    const product = await Product.findOne({ _id: id, shopId });
+    let query = { _id: id };
+    if (req.user.role !== 'superadmin' && req.user.role !== 'admin') {
+      query.shopId = req.user.shopId;
+    }
+
+    const product = await Product.findOne(query);
 
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });

@@ -136,9 +136,20 @@ const changePassword = async (req, res) => {
   }
 };
 
+const getUsersByShop = async (req, res) => {
+  try {
+    const users = await User.find({ shopId: req.params.shopId }).select('-password');
+    res.json(users);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server Error' });
+  }
+};
+
 module.exports = {
   registerUser,
   loginUser,
   getMe,
   changePassword,
+  getUsersByShop,
 };

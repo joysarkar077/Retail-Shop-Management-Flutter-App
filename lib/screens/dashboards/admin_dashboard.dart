@@ -3,16 +3,20 @@ import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import '../../providers/auth_provider.dart';
 import '../auth/register_user_screen.dart';
-import 'create_shop_screen.dart';
+import 'shop_list_screen.dart';
+import '../inventory/product_list_screen.dart';
 
 class AdminDashboard extends StatelessWidget {
   const AdminDashboard({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final user = context.read<AuthProvider>().user;
+    final String uId = user != null ? 'U-${user.id.substring(user.id.length - 6).toUpperCase()}' : '';
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Admin Dashboard', style: TextStyle(fontWeight: FontWeight.bold)),
+        title: Text('Admin Dashboard | $uId', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
         backgroundColor: Colors.blue[800],
         foregroundColor: Colors.white,
         elevation: 0,
@@ -55,19 +59,27 @@ class AdminDashboard extends StatelessWidget {
                   children: [
                     _buildActionCard(
                       context, 
-                      title: 'Create New Shop', 
-                      subtitle: 'Add a new retail branch', 
-                      icon: Icons.add_business,
+                      title: 'Manage Shops', 
+                      subtitle: 'Review or add a new retail branch', 
+                      icon: Icons.store_mall_directory,
                       color: Colors.blue,
-                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const CreateShopScreen())),
+                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ShopListScreen())),
                     ),
                     _buildActionCard(
                       context, 
-                      title: 'Manage Owners', 
-                      subtitle: 'Register shop owners', 
-                      icon: Icons.supervised_user_circle,
-                      color: Colors.cyan,
+                      title: 'Global User Management', 
+                      subtitle: 'Add or modify staff and owners', 
+                      icon: Icons.people_alt,
+                      color: Colors.purple,
                       onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const RegisterUserScreen())),
+                    ),
+                    _buildActionCard(
+                      context, 
+                      title: 'Manage Products', 
+                      subtitle: 'Access the global product catalog', 
+                      icon: Icons.inventory_2,
+                      color: Colors.teal,
+                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ProductListScreen())),
                     ),
                   ],
                 ),

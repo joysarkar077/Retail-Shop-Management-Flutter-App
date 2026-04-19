@@ -22,12 +22,12 @@ const productSchema = new mongoose.Schema({
   },
   unit: {
     type: String,
-    enum: ['kg', 'pcs', 'ltr', 'dozen', 'pack'],
-    default: 'pcs',
+    enum: ['kg', 'g', 'liter', 'ml', 'piece', 'packet', 'box', 'pcs', 'ltr', 'dozen', 'pack'],
+    default: 'piece',
   },
   costPrice: {
     type: Number,
-    required: true,
+    default: 0,
   },
   sellingPrice: {
     type: Number,

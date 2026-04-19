@@ -10,9 +10,12 @@ class ManagerDashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = context.read<AuthProvider>().user;
+    final String uId = user != null ? 'U-${user.id.substring(user.id.length - 6).toUpperCase()}' : '';
+    
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Manager Dashboard', style: TextStyle(fontWeight: FontWeight.bold)),
+        title: Text('Manager Dashboard | $uId', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
         backgroundColor: Colors.teal[800],
         foregroundColor: Colors.white,
         elevation: 0,

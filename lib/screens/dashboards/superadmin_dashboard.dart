@@ -3,16 +3,20 @@ import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import '../../providers/auth_provider.dart';
 import '../auth/register_user_screen.dart';
-import 'create_shop_screen.dart';
+import 'shop_list_screen.dart';
+import '../inventory/product_list_screen.dart';
 
 class SuperAdminDashboard extends StatelessWidget {
   const SuperAdminDashboard({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final user = context.read<AuthProvider>().user;
+    final String uId = user != null ? 'U-${user.id.substring(user.id.length - 6).toUpperCase()}' : '';
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('SuperAdmin Console', style: TextStyle(fontWeight: FontWeight.bold)),
+        title: Text('SuperAdmin Console | $uId', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
         backgroundColor: Colors.indigo[800],
         foregroundColor: Colors.white,
         elevation: 0,
@@ -59,15 +63,23 @@ class SuperAdminDashboard extends StatelessWidget {
                       subtitle: 'Add or configure retail spaces', 
                       icon: Icons.store_mall_directory,
                       color: Colors.indigo,
-                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const CreateShopScreen())),
+                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ShopListScreen())),
                     ),
                     _buildActionCard(
                       context, 
                       title: 'Global User Management', 
-                      subtitle: 'Register Admins and Owners', 
+                      subtitle: 'Add or modify staff and owners', 
                       icon: Icons.people_alt,
-                      color: Colors.deepPurple,
+                      color: Colors.purple,
                       onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const RegisterUserScreen())),
+                    ),
+                    _buildActionCard(
+                      context, 
+                      title: 'Manage Products', 
+                      subtitle: 'Access the global product catalog', 
+                      icon: Icons.inventory_2,
+                      color: Colors.teal,
+                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ProductListScreen())),
                     ),
                   ],
                 ),
