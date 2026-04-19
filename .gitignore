@@ -11,7 +11,7 @@
 .svn/
 .swiftpm/
 migrate_working_dir/
-.docs/
+# .docs/ is no longer ignored to allow for system documentation.
 
 # IntelliJ related
 *.iml
