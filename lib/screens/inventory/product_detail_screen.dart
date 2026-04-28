@@ -6,7 +6,7 @@ import '../../widgets/stock_adjustment_sheet.dart';
 class ProductDetailScreen extends StatelessWidget {
   final String productId;
 
-  const ProductDetailScreen({Key? key, required this.productId}) : super(key: key);
+  const ProductDetailScreen({super.key, required this.productId});
 
   @override
   Widget build(BuildContext context) {
@@ -27,23 +27,40 @@ class ProductDetailScreen extends StatelessWidget {
                 color: Colors.grey[300],
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: const Icon(Icons.inventory_2, size: 80, color: Colors.grey),
+              child: const Icon(
+                Icons.inventory_2,
+                size: 80,
+                color: Colors.grey,
+              ),
             ),
             const SizedBox(height: 20),
-            const Text('Sample Product Name', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-            const Text('SKU: PRD-001 | Barcode: 123456789012', style: TextStyle(color: Colors.grey)),
+            const Text(
+              'Sample Product Name',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            const Text(
+              'SKU: PRD-001 | Barcode: 123456789012',
+              style: TextStyle(color: Colors.grey),
+            ),
             const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 _buildStatCard('Stock', '45 pcs', Colors.green),
                 _buildStatCard('Price', '৳ 120', Colors.blue),
-                if (['superadmin', 'admin', 'owner'].contains(Provider.of<AuthProvider>(context).role))
+                if ([
+                  'superadmin',
+                  'admin',
+                  'owner',
+                ].contains(Provider.of<AuthProvider>(context).role))
                   _buildStatCard('Cost', '৳ 90', Colors.orange),
               ],
             ),
             const SizedBox(height: 30),
-            const Text('Stock History', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            const Text(
+              'Stock History',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
             const SizedBox(height: 10),
             const ListTile(
               leading: Icon(Icons.add_circle, color: Colors.green),
@@ -92,7 +109,10 @@ class ProductDetailScreen extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Text(label, style: TextStyle(color: color[800], fontWeight: FontWeight.bold)),
+          Text(
+            label,
+            style: TextStyle(color: color[800], fontWeight: FontWeight.bold),
+          ),
           const SizedBox(height: 8),
           Text(value, style: TextStyle(fontSize: 18, color: color[900])),
         ],

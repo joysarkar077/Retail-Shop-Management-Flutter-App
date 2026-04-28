@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CategoryListScreen extends StatelessWidget {
-  const CategoryListScreen({Key? key}) : super(key: key);
+  const CategoryListScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,10 @@ class CategoryListScreen extends StatelessWidget {
           return Card(
             margin: const EdgeInsets.only(bottom: 12),
             child: ListTile(
-              title: Text(dummyCategories[index], style: const TextStyle(fontWeight: FontWeight.bold)),
+              title: Text(
+                dummyCategories[index],
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
               subtitle: const Text('Tap to edit'),
               trailing: const Icon(Icons.chevron_right),
               onTap: () {
@@ -34,7 +37,7 @@ class CategoryListScreen extends StatelessWidget {
         backgroundColor: Colors.green[800],
         foregroundColor: Colors.white,
         onPressed: () {
-           // Show Add Category dialog
+          // Show Add Category dialog
         },
         child: const Icon(Icons.add),
       ),

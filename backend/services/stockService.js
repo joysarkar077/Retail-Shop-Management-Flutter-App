@@ -32,6 +32,16 @@ const adjustStockLogic = async (productId, shopId, userId, quantityChanged, chan
   return { product, stockLog };
 };
 
+const deductStock = async (productId, quantity, shopId, userId, orderId) => {
+  return await adjustStockLogic(productId, shopId, userId, -quantity, 'sale', `Sale - Order ${orderId}`);
+};
+
+const restoreStock = async (productId, quantity, shopId, userId, orderId) => {
+  return await adjustStockLogic(productId, shopId, userId, quantity, 'void_restore', `Void - Order ${orderId}`);
+};
+
 module.exports = {
   adjustStockLogic,
+  deductStock,
+  restoreStock,
 };

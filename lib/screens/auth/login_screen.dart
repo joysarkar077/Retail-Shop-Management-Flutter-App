@@ -4,7 +4,7 @@ import '../../providers/auth_provider.dart';
 import 'package:go_router/go_router.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -17,7 +17,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _handleLogin() async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    
+
     bool p = await authProvider.login(
       _emailController.text.trim(),
       _passwordController.text,
@@ -43,15 +43,17 @@ class _LoginScreenState extends State<LoginScreen> {
             context.go('/employee');
             break;
           default:
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Unknown role')),
-            );
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(const SnackBar(content: Text('Unknown role')));
         }
       }
     } else {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Login Failed. Please check your credentials.')),
+          const SnackBar(
+            content: Text('Login Failed. Please check your credentials.'),
+          ),
         );
       }
     }
@@ -91,10 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     Text(
                       'Retail Shop Management',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.white70,
-                      ),
+                      style: TextStyle(fontSize: 16, color: Colors.white70),
                     ),
                   ],
                 ),
@@ -138,7 +137,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         suffixIcon: IconButton(
                           icon: Icon(
-                            _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                            _obscurePassword
+                                ? Icons.visibility_off
+                                : Icons.visibility,
                           ),
                           onPressed: () {
                             setState(() {
@@ -161,11 +162,15 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         onPressed: authProvider.isLoading ? null : _handleLogin,
                         child: authProvider.isLoading
-                            ? const CircularProgressIndicator(color: Colors.white)
+                            ? const CircularProgressIndicator(
+                                color: Colors.white,
+                              )
                             : const Text(
                                 'Login',
                                 style: TextStyle(
-                                    fontSize: 18, color: Colors.white),
+                                  fontSize: 18,
+                                  color: Colors.white,
+                                ),
                               ),
                       ),
                     ),
@@ -176,7 +181,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         'Forgot Password?',
                         style: TextStyle(color: Colors.amber),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),

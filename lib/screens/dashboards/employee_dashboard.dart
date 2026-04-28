@@ -4,14 +4,22 @@ import 'package:go_router/go_router.dart';
 import '../../providers/auth_provider.dart';
 import '../inventory/product_list_screen.dart';
 
-class EmployeePOSScreen extends StatelessWidget {
-  const EmployeePOSScreen({Key? key}) : super(key: key);
+class EmployeeDashboard extends StatelessWidget {
+  const EmployeeDashboard({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final user = context.read<AuthProvider>().user;
+    final String uId = user != null
+        ? 'U-${user.id.substring(user.id.length - 6).toUpperCase()}'
+        : '';
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Point of Sale', style: TextStyle(fontWeight: FontWeight.bold)),
+        title: Text(
+          'Employee Dashboard | $uId',
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+        ),
         backgroundColor: Colors.green[800],
         foregroundColor: Colors.white,
         elevation: 0,
@@ -23,7 +31,7 @@ class EmployeePOSScreen extends StatelessWidget {
               context.read<AuthProvider>().logout();
               context.go('/login');
             },
-          )
+          ),
         ],
       ),
       body: Container(
@@ -40,7 +48,11 @@ class EmployeePOSScreen extends StatelessWidget {
               padding: EdgeInsets.all(24.0),
               child: Text(
                 'Checkout Station',
-                style: TextStyle(fontSize: 28, color: Colors.white, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 28,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             Expanded(
@@ -48,27 +60,41 @@ class EmployeePOSScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(24),
                 decoration: const BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30),
+                  ),
                 ),
                 child: ListView(
                   children: [
                     _buildActionCard(
-                      context, 
-                      title: 'Scan Barcode', 
-                      subtitle: 'Add product to cart directly', 
-                      icon: Icons.qr_code_scanner,
+                      context,
+                      title: 'Open POS',
+                      subtitle: 'Search & Scan Checkout System',
+                      icon: Icons.point_of_sale,
                       color: Colors.green,
-                      onTap: () {
-                         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Not implemented yet')));
-                      },
+                      onTap: () => context.push('/pos-main'),
                     ),
                     _buildActionCard(
-                      context, 
-                      title: 'Browse Catalog', 
-                      subtitle: 'Manually select product', 
+                      context,
+                      title: 'My Sales History',
+                      subtitle: 'View your past transactions',
+                      icon: Icons.history,
+                      color: Colors.purple,
+                      onTap: () => context.push('/history'),
+                    ),
+                    _buildActionCard(
+                      context,
+                      title: 'Browse Catalog',
+                      subtitle: 'Manually select product',
                       icon: Icons.search,
                       color: Colors.blueGrey,
-                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ProductListScreen())),
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const ProductListScreen(),
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -80,7 +106,14 @@ class EmployeePOSScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildActionCard(BuildContext context, {required String title, required String subtitle, required IconData icon, required MaterialColor color, required VoidCallback onTap}) {
+  Widget _buildActionCard(
+    BuildContext context, {
+    required String title,
+    required String subtitle,
+    required IconData icon,
+    required MaterialColor color,
+    required VoidCallback onTap,
+  }) {
     return Card(
       elevation: 4,
       shadowColor: color.withOpacity(0.2),
@@ -93,7 +126,10 @@ class EmployeePOSScreen extends StatelessWidget {
           radius: 30,
           child: Icon(icon, color: color[700], size: 30),
         ),
-        title: Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        title: Text(
+          title,
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
         subtitle: Text(subtitle, style: TextStyle(color: Colors.grey[600])),
         trailing: const Icon(Icons.arrow_forward_ios),
         onTap: onTap,
