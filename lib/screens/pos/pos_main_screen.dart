@@ -238,7 +238,7 @@ class _POSMainScreenState extends State<POSMainScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Point of Sale'),
-        backgroundColor: Colors.green[800],
+        backgroundColor: const Color(0xFF2E7D32),
         foregroundColor: Colors.white,
       ),
       body: Stack(
@@ -247,7 +247,7 @@ class _POSMainScreenState extends State<POSMainScreen> {
             children: [
               // Search Bar Area
               Container(
-                color: Colors.green[800],
+                color: const Color(0xFF2E7D32),
                 padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                 child: TextField(
                   controller: _searchController,
@@ -358,14 +358,14 @@ class _POSMainScreenState extends State<POSMainScreen> {
                         ),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.green[700],
+                            backgroundColor: const Color(0xFF2E7D32),
                             foregroundColor: Colors.white,
                             padding: const EdgeInsets.symmetric(
                               horizontal: 24,
                               vertical: 12,
                             ),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(12),
                             ),
                           ),
                           onPressed: () => context.push('/cart'),

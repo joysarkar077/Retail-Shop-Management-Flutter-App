@@ -121,10 +121,11 @@ class _SalesSummaryWidgetState extends State<SalesSummaryWidget> {
   ) {
     return Expanded(
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
         decoration: BoxDecoration(
           color: cardColor,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: widget.darkTheme ? Colors.white24 : Colors.black12),
         ),
         child: Column(
           children: [

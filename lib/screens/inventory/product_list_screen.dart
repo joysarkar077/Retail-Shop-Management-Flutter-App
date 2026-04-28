@@ -58,8 +58,8 @@ class _ProductListScreenState extends State<ProductListScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Product Catalog'),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
+        backgroundColor: const Color(0xFF2E7D32),
+        foregroundColor: Colors.white,
         elevation: 0,
         actions: [
           IconButton(
@@ -70,23 +70,26 @@ class _ProductListScreenState extends State<ProductListScreen> {
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
+          Container(
+            color: const Color(0xFF2E7D32),
+            padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
             child: TextField(
               onChanged: (val) => _searchQuery = val,
               onSubmitted: (_) => _fetchProducts(),
               decoration: InputDecoration(
                 hintText: 'Search products by name or SKU...',
-                prefixIcon: const Icon(Icons.search),
+                prefixIcon: const Icon(Icons.search, color: Colors.black54),
                 suffixIcon: IconButton(
-                  icon: const Icon(Icons.send),
+                  icon: const Icon(Icons.send, color: Color(0xFF2E7D32)),
                   onPressed: _fetchProducts,
                 ),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
                 ),
                 filled: true,
-                fillColor: Colors.grey[200],
+                fillColor: Colors.white,
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               ),
             ),
           ),
@@ -94,42 +97,32 @@ class _ProductListScreenState extends State<ProductListScreen> {
             child: _isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : _products.isEmpty
-                ? const Center(
-                    child: Text(
-                      'No products found',
-                      style: TextStyle(color: Colors.grey),
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.inventory_2_outlined, size: 80, color: Colors.grey[400]),
+                        const SizedBox(height: 16),
+                        const Text(
+                          'No products found',
+                          style: TextStyle(color: Colors.grey, fontSize: 18),
+                        ),
+                      ],
                     ),
                   )
                 : ListView.builder(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                     itemCount: _products.length,
                     itemBuilder: (context, index) {
                       final product = _products[index];
+                      final stock = product['stock_count'] as int;
+                      final bool isLowStock = stock < 10;
+                      final bool isOutOfStock = stock <= 0;
+                      
                       return Card(
-                        elevation: 2,
                         margin: const EdgeInsets.only(bottom: 12),
-                        child: ListTile(
-                          leading: Container(
-                            width: 50,
-                            height: 50,
-                            color: Colors.grey[300],
-                            child: const Icon(Icons.image, color: Colors.grey),
-                          ),
-                          title: Text(
-                            product['name'],
-                            style: const TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          subtitle: Text(
-                            'Stock: ${product['stock_count']} ${product['unit']} | SKU: ${product['sku'] ?? 'N/A'}',
-                          ),
-                          trailing: Text(
-                            '৳${product['sellingPrice'].toStringAsFixed(2)}',
-                            style: const TextStyle(
-                              color: Colors.green,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(16),
                           onTap: canModify
                               ? () async {
                                   final updated = await Navigator.push(
@@ -143,6 +136,76 @@ class _ProductListScreenState extends State<ProductListScreen> {
                                   if (updated == true) _fetchProducts();
                                 }
                               : null,
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: 60,
+                                  height: 60,
+                                  decoration: BoxDecoration(
+                                    color: Colors.green[50],
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: Icon(Icons.inventory, color: Colors.green[700], size: 30),
+                                ),
+                                const SizedBox(width: 16),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        product['name'],
+                                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        'SKU: ${product['sku'] ?? 'N/A'}',
+                                        style: TextStyle(color: Colors.grey[600], fontSize: 12),
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Row(
+                                        children: [
+                                          Icon(
+                                            isOutOfStock ? Icons.error_outline : Icons.check_circle_outline,
+                                            size: 14,
+                                            color: isOutOfStock ? Colors.red : (isLowStock ? Colors.orange : Colors.green),
+                                          ),
+                                          const SizedBox(width: 4),
+                                          Text(
+                                            '$stock ${product['unit']}',
+                                            style: TextStyle(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w600,
+                                              color: isOutOfStock ? Colors.red : (isLowStock ? Colors.orange : Colors.green),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      '৳${product['sellingPrice'].toStringAsFixed(2)}',
+                                      style: const TextStyle(
+                                        color: Color(0xFF2E7D32),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    if (canModify)
+                                      Icon(Icons.edit_outlined, color: Colors.grey[400], size: 20),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       );
                     },

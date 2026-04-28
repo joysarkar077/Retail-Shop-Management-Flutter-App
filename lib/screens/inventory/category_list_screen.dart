@@ -8,8 +8,8 @@ class CategoryListScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Manage Categories'),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
+        backgroundColor: const Color(0xFF2E7D32),
+        foregroundColor: Colors.white,
         elevation: 0,
       ),
       body: ListView.builder(
@@ -34,7 +34,7 @@ class CategoryListScreen extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.green[800],
+        backgroundColor: const Color(0xFF2E7D32),
         foregroundColor: Colors.white,
         onPressed: () {
           // Show Add Category dialog

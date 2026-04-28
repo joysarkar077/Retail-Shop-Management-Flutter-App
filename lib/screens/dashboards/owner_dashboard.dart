@@ -19,145 +19,145 @@ class OwnerDashboard extends StatelessWidget {
         : '';
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Owner Dashboard | $uId',
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-        ),
-        backgroundColor: Colors.green[800],
-        foregroundColor: Colors.white,
-        elevation: 0,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () {
-              context.read<AuthProvider>().logout();
-              context.go('/login');
-            },
-          ),
-        ],
-      ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.green[800]!, Colors.green[500]!],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Padding(
-              padding: EdgeInsets.only(left: 24.0, top: 24.0, right: 24.0, bottom: 8.0),
-              child: Text(
-                'Branch Operations',
-                style: TextStyle(
-                  fontSize: 28,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
+      backgroundColor: Colors.grey[50],
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            expandedHeight: 200.0,
+            floating: false,
+            pinned: true,
+            backgroundColor: const Color(0xFF2E7D32),
+            foregroundColor: Colors.white,
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.logout),
+                onPressed: () {
+                  context.read<AuthProvider>().logout();
+                  context.go('/login');
+                },
               ),
-            ),
-            const SalesSummaryWidget(),
-            const SizedBox(height: 16),
-            Expanded(
-              child: Container(
-                padding: const EdgeInsets.all(24),
+            ],
+            flexibleSpace: FlexibleSpaceBar(
+              title: const Text(
+                'Owner Dashboard',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              ),
+              background: Container(
                 decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30),
+                  gradient: LinearGradient(
+                    colors: [Color(0xFF1B5E20), Color(0xFF4CAF50)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
                   ),
                 ),
-                child: ListView(
-                  children: [
-                    _buildActionCard(
-                      context,
-                      title: 'Sales Analytics',
-                      subtitle: 'View revenue and top products',
-                      icon: Icons.analytics,
-                      color: Colors.indigo,
-                      onTap: () => context.push('/analytics'),
-                    ),
-                    _buildActionCard(
-                      context,
-                      title: 'Customer Database',
-                      subtitle: 'View customers and history',
-                      icon: Icons.people,
-                      color: Colors.teal,
-                      onTap: () => context.push('/customers'),
-                    ),
-                    _buildActionCard(
-                      context,
-                      title: 'Coupons & Discounts',
-                      subtitle: 'Manage promotional codes',
-                      icon: Icons.local_offer,
-                      color: Colors.deepOrange,
-                      onTap: () => context.push('/coupons'),
-                    ),
-                    _buildActionCard(
-                      context,
-                      title: 'Shop Settings',
-                      subtitle: 'Update address, phone, manager',
-                      icon: Icons.store,
-                      color: Colors.brown,
-                      onTap: () => context.push('/shop-settings'),
-                    ),
-                    _buildActionCard(
-                      context,
-                      title: 'Transaction History',
-                      subtitle: 'View and void past orders',
-                      icon: Icons.history,
-                      color: Colors.purple,
-                      onTap: () => context.push('/history'),
-                    ),
-                    _buildActionCard(
-                      context,
-                      title: 'Product Catalog',
-                      subtitle: 'Manage local inventory',
-                      icon: Icons.inventory_2,
-                      color: Colors.green,
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const ProductListScreen(),
-                        ),
-                      ),
-                    ),
-                    _buildActionCard(
-                      context,
-                      title: 'Low Stock Alerts',
-                      subtitle: 'Check items requiring restock',
-                      icon: Icons.warning_amber_rounded,
-                      color: Colors.orange,
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const LowStockAlertsScreen(),
-                        ),
-                      ),
-                    ),
-                    _buildActionCard(
-                      context,
-                      title: 'Register Staff',
-                      subtitle: 'Add managers or employees',
-                      icon: Icons.person_add_alt_1,
-                      color: Colors.blue,
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const RegisterUserScreen(),
-                        ),
-                      ),
-                    ),
-                  ],
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.storefront, size: 60, color: Colors.white38),
+                      const SizedBox(height: 8),
+                      Text('ID: $uId', style: const TextStyle(color: Colors.white70, fontSize: 12)),
+                      const SizedBox(height: 20), // Padding to avoid overlapping with title
+                    ],
+                  ),
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+          const SliverToBoxAdapter(
+            child: Padding(
+              padding: EdgeInsets.all(16.0),
+              child: SalesSummaryWidget(),
+            ),
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate([
+                _buildActionCard(
+                  context,
+                  title: 'Sales Analytics',
+                  subtitle: 'View revenue and top products',
+                  icon: Icons.analytics,
+                  color: Colors.indigo,
+                  onTap: () => context.push('/analytics'),
+                ),
+                _buildActionCard(
+                  context,
+                  title: 'Customer Database',
+                  subtitle: 'View customers and history',
+                  icon: Icons.people,
+                  color: Colors.teal,
+                  onTap: () => context.push('/customers'),
+                ),
+                _buildActionCard(
+                  context,
+                  title: 'Coupons & Discounts',
+                  subtitle: 'Manage promotional codes',
+                  icon: Icons.local_offer,
+                  color: Colors.deepOrange,
+                  onTap: () => context.push('/coupons'),
+                ),
+                _buildActionCard(
+                  context,
+                  title: 'Shop Settings',
+                  subtitle: 'Update address, phone, manager',
+                  icon: Icons.store,
+                  color: Colors.brown,
+                  onTap: () => context.push('/shop-settings'),
+                ),
+                _buildActionCard(
+                  context,
+                  title: 'Transaction History',
+                  subtitle: 'View and void past orders',
+                  icon: Icons.history,
+                  color: Colors.purple,
+                  onTap: () => context.push('/history'),
+                ),
+                _buildActionCard(
+                  context,
+                  title: 'Product Catalog',
+                  subtitle: 'Manage local inventory',
+                  icon: Icons.inventory_2,
+                  color: Colors.green,
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const ProductListScreen(),
+                    ),
+                  ),
+                ),
+                _buildActionCard(
+                  context,
+                  title: 'Low Stock Alerts',
+                  subtitle: 'Check items requiring restock',
+                  icon: Icons.warning_amber_rounded,
+                  color: Colors.orange,
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const LowStockAlertsScreen(),
+                    ),
+                  ),
+                ),
+                _buildActionCard(
+                  context,
+                  title: 'Register Staff',
+                  subtitle: 'Add managers or employees',
+                  icon: Icons.person_add_alt_1,
+                  color: Colors.blue,
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const RegisterUserScreen(),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 30),
+              ]),
+            ),
+          ),
+        ],
       ),
     );
   }

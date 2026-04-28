@@ -159,16 +159,16 @@ class _POSCartScreenState extends State<POSCartScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Current Cart'),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        elevation: 1,
+        backgroundColor: const Color(0xFF2E7D32),
+        foregroundColor: Colors.white,
+        elevation: 0,
         actions: [
           Center(
             child: Padding(
               padding: const EdgeInsets.only(right: 16.0),
               child: Chip(
-                label: Text('${cart.itemCount} items'),
-                backgroundColor: Colors.green[100],
+                label: Text('${cart.itemCount} items', style: const TextStyle(color: Color(0xFF2E7D32), fontWeight: FontWeight.bold)),
+                backgroundColor: Colors.white,
               ),
             ),
           ),
@@ -265,8 +265,11 @@ class _POSCartScreenState extends State<POSCartScreen> {
                           ElevatedButton(
                             onPressed: _isApplyingCoupon ? null : _applyCoupon,
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.indigo,
+                              backgroundColor: const Color(0xFF2E7D32),
                               foregroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
                             ),
                             child: _isApplyingCoupon
                                 ? const SizedBox(
@@ -378,10 +381,10 @@ class _POSCartScreenState extends State<POSCartScreen> {
                         height: 50,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.green[700],
+                            backgroundColor: const Color(0xFF2E7D32),
                             foregroundColor: Colors.white,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(12),
                             ),
                           ),
                           onPressed: _isProcessing ? null : _completeCheckout,
