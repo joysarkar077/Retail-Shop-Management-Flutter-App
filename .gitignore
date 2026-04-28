@@ -12,6 +12,9 @@
 .swiftpm/
 migrate_working_dir/
 # .docs/ is no longer ignored to allow for system documentation.
+.docs/
+test/
+
 
 # IntelliJ related
 *.iml

@@ -62,14 +62,40 @@ const getAllShops = async (req, res) => {
   }
 };
 
+const getShopById = async (req, res) => {
+  const { id } = req.params;
+  // Security check: if owner/manager, they can only view their own shop
+  if (['owner', 'manager'].includes(req.user.role)) {
+    if (req.user.shopId.toString() !== id) {
+      return res.status(403).json({ message: 'Forbidden: You can only view your own shop.' });
+    }
+  }
+
+  try {
+    const shop = await Shop.findById(id);
+    if (!shop) return res.status(404).json({ message: 'Shop not found.' });
+    res.json(shop);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server Error' });
+  }
+};
+
 const updateShop = async (req, res) => {
   const { id } = req.params;
-  const { name } = req.body;
+  const { name, address, phone, managerName } = req.body;
+
+  // Security check: if owner/manager, they can only update their own shop
+  if (['owner', 'manager'].includes(req.user.role)) {
+    if (req.user.shopId.toString() !== id) {
+      return res.status(403).json({ message: 'Forbidden: You can only update your own shop.' });
+    }
+  }
 
   if (!name) return res.status(400).json({ message: 'Shop name is required.' });
 
   try {
-    const shop = await Shop.findByIdAndUpdate(id, { name }, { new: true });
+    const shop = await Shop.findByIdAndUpdate(id, { name, address, phone, managerName }, { new: true });
     if (!shop) return res.status(404).json({ message: 'Shop not found.' });
     
     res.json(shop);
@@ -82,5 +108,6 @@ const updateShop = async (req, res) => {
 module.exports = {
   createShop,
   getAllShops,
+  getShopById,
   updateShop,
 };

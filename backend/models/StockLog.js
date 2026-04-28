@@ -13,7 +13,7 @@ const stockLogSchema = new mongoose.Schema({
   },
   changeType: {
     type: String,
-    enum: ['sale', 'restock', 'adjustment', 'damage', 'opening'],
+    enum: ['sale', 'restock', 'adjustment', 'damage', 'opening', 'void_restore'],
     required: true,
   },
   quantityBefore: {

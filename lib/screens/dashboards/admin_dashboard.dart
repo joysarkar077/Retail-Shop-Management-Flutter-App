@@ -7,16 +7,21 @@ import 'shop_list_screen.dart';
 import '../inventory/product_list_screen.dart';
 
 class AdminDashboard extends StatelessWidget {
-  const AdminDashboard({Key? key}) : super(key: key);
+  const AdminDashboard({super.key});
 
   @override
   Widget build(BuildContext context) {
     final user = context.read<AuthProvider>().user;
-    final String uId = user != null ? 'U-${user.id.substring(user.id.length - 6).toUpperCase()}' : '';
+    final String uId = user != null
+        ? 'U-${user.id.substring(user.id.length - 6).toUpperCase()}'
+        : '';
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Admin Dashboard | $uId', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+        title: Text(
+          'Admin Dashboard | $uId',
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+        ),
         backgroundColor: Colors.blue[800],
         foregroundColor: Colors.white,
         elevation: 0,
@@ -28,7 +33,7 @@ class AdminDashboard extends StatelessWidget {
               context.read<AuthProvider>().logout();
               context.go('/login');
             },
-          )
+          ),
         ],
       ),
       body: Container(
@@ -45,7 +50,11 @@ class AdminDashboard extends StatelessWidget {
               padding: EdgeInsets.all(24.0),
               child: Text(
                 'Regional Overview',
-                style: TextStyle(fontSize: 28, color: Colors.white, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 28,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             Expanded(
@@ -53,33 +62,51 @@ class AdminDashboard extends StatelessWidget {
                 padding: const EdgeInsets.all(24),
                 decoration: const BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30),
+                  ),
                 ),
                 child: ListView(
                   children: [
                     _buildActionCard(
-                      context, 
-                      title: 'Manage Shops', 
-                      subtitle: 'Review or add a new retail branch', 
+                      context,
+                      title: 'Manage Shops',
+                      subtitle: 'Review or add a new retail branch',
                       icon: Icons.store_mall_directory,
                       color: Colors.blue,
-                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ShopListScreen())),
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const ShopListScreen(),
+                        ),
+                      ),
                     ),
                     _buildActionCard(
-                      context, 
-                      title: 'Global User Management', 
-                      subtitle: 'Add or modify staff and owners', 
+                      context,
+                      title: 'Global User Management',
+                      subtitle: 'Add or modify staff and owners',
                       icon: Icons.people_alt,
                       color: Colors.purple,
-                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const RegisterUserScreen())),
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const RegisterUserScreen(),
+                        ),
+                      ),
                     ),
                     _buildActionCard(
-                      context, 
-                      title: 'Manage Products', 
-                      subtitle: 'Access the global product catalog', 
+                      context,
+                      title: 'Manage Products',
+                      subtitle: 'Access the global product catalog',
                       icon: Icons.inventory_2,
                       color: Colors.teal,
-                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ProductListScreen())),
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const ProductListScreen(),
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -91,7 +118,14 @@ class AdminDashboard extends StatelessWidget {
     );
   }
 
-  Widget _buildActionCard(BuildContext context, {required String title, required String subtitle, required IconData icon, required MaterialColor color, required VoidCallback onTap}) {
+  Widget _buildActionCard(
+    BuildContext context, {
+    required String title,
+    required String subtitle,
+    required IconData icon,
+    required MaterialColor color,
+    required VoidCallback onTap,
+  }) {
     return Card(
       elevation: 4,
       shadowColor: color.withOpacity(0.2),
@@ -104,7 +138,10 @@ class AdminDashboard extends StatelessWidget {
           radius: 30,
           child: Icon(icon, color: color[700], size: 30),
         ),
-        title: Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        title: Text(
+          title,
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
         subtitle: Text(subtitle, style: TextStyle(color: Colors.grey[600])),
         trailing: const Icon(Icons.arrow_forward_ios),
         onTap: onTap,

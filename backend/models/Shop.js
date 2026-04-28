@@ -8,6 +8,12 @@ const shopSchema = new mongoose.Schema({
   address: {
     type: String,
   },
+  phone: {
+    type: String,
+  },
+  managerName: {
+    type: String,
+  },
   isActive: {
     type: Boolean,
     default: true,

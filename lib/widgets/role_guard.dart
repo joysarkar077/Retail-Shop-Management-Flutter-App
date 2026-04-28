@@ -8,11 +8,11 @@ class RoleGuard extends StatelessWidget {
   final Widget? fallback;
 
   const RoleGuard({
-    Key? key,
+    super.key,
     required this.allowedRoles,
     required this.child,
     this.fallback,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

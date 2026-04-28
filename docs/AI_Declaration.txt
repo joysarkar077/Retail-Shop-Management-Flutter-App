@@ -1,0 +1,70 @@
+============================================================
+           AI USAGE DECLARATION
+============================================================
+
+Name: Jotee Sarkar Joy
+Student ID: 22301001
+Assignment: Project - Retail Shop Management
+Date: 25 April, 2026
+
+------------------------------------------------------------
+1. AI TOOLS USED (check all that apply)
+------------------------------------------------------------
+[ ] None
+[x] ChatGPT
+[ ] GitHub Copilot
+[x] Google Gemini
+[x] Claude
+[ ] Cursor
+[x] Other: YouTube tutorials, Flutter and Node.js official documentation
+
+------------------------------------------------------------
+2. PURPOSE OF AI USE (check all that apply)
+------------------------------------------------------------
+[x] Learning/understanding concepts
+[x] Debugging my code
+[x] Generating code snippets
+[x] Writing text content
+[x] Design/styling ideas
+[ ] Image generation
+[ ] Other: ________________
+
+------------------------------------------------------------
+3. DESCRIPTION OF AI USE
+------------------------------------------------------------
+I used AI to assist in building the full-stack architecture 
+of this Retail Shop Management system. Specifically, AI 
+helped me design the MongoDB schema, generate boilerplate 
+code for the Express.js controllers, and build complex 
+database aggregations for the analytics dashboard.
+
+On the frontend, I used AI to help debug state management 
+issues with the Provider package, structure the layout of 
+the POS scanner, and generate the PDF invoice layouts. 
+
+I reviewed and understood all the code in my submission and
+can explain how each part works.
+
+------------------------------------------------------------
+4. AI-ASSISTED SECTIONS
+------------------------------------------------------------
+List specific files/sections where AI helped significantly:
+
+File: backend/controllers/orderController.js (Checkout & stock logic)
+File: backend/controllers/analyticsController.js (MongoDB aggregations)
+File: lib/utils/pdf_generator.dart (PDF receipt layout)
+File: lib/screens/pos/pos_cart_screen.dart (State management & UI)
+
+------------------------------------------------------------
+5. DECLARATION
+------------------------------------------------------------
+I declare that:
+- This disclosure is complete and accurate
+- I understand all code in my submission
+- I can explain and modify my work if asked
+- I take full responsibility for my submission
+
+Signature: Jotee Sarkar Joy 
+Date: 25 April, 2026
+
+============================================================

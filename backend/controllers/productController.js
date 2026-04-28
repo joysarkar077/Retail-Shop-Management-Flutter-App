@@ -24,6 +24,7 @@ const getAllProducts = async (req, res) => {
       query.$or = [
         { name: { $regex: search, $options: 'i' } },
         { sku: { $regex: search, $options: 'i' } },
+        { barcode: { $regex: search, $options: 'i' } },
       ];
     }
 
