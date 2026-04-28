@@ -18,109 +18,109 @@ class ManagerDashboard extends StatelessWidget {
         : '';
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Manager Dashboard | $uId',
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-        ),
-        backgroundColor: Colors.teal[800],
-        foregroundColor: Colors.white,
-        elevation: 0,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            tooltip: 'Sign Out',
-            onPressed: () {
-              context.read<AuthProvider>().logout();
-              context.go('/login');
-            },
-          ),
-        ],
-      ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.teal[800]!, Colors.teal[400]!],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Padding(
-              padding: EdgeInsets.only(left: 24.0, top: 24.0, right: 24.0, bottom: 8.0),
-              child: Text(
-                'Inventory Management',
-                style: TextStyle(
-                  fontSize: 28,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
+      backgroundColor: Colors.grey[50],
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            expandedHeight: 200.0,
+            floating: false,
+            pinned: true,
+            backgroundColor: const Color(0xFF00695C), // teal[800]
+            foregroundColor: Colors.white,
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.logout),
+                tooltip: 'Sign Out',
+                onPressed: () {
+                  context.read<AuthProvider>().logout();
+                  context.go('/login');
+                },
               ),
-            ),
-            const SalesSummaryWidget(),
-            const SizedBox(height: 16),
-            Expanded(
-              child: Container(
-                padding: const EdgeInsets.all(24),
+            ],
+            flexibleSpace: FlexibleSpaceBar(
+              title: const Text(
+                'Manager Dashboard',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              ),
+              background: Container(
                 decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30),
+                  gradient: LinearGradient(
+                    colors: [Color(0xFF004D40), Color(0xFF26A69A)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
                   ),
                 ),
-                child: ListView(
-                  children: [
-                    _buildActionCard(
-                      context,
-                      title: 'Sales Analytics',
-                      subtitle: 'View revenue and top products',
-                      icon: Icons.analytics,
-                      color: Colors.indigo,
-                      onTap: () => context.push('/analytics'),
-                    ),
-                    _buildActionCard(
-                      context,
-                      title: 'Transaction History',
-                      subtitle: 'View and void past orders',
-                      icon: Icons.history,
-                      color: Colors.purple,
-                      onTap: () => context.push('/history'),
-                    ),
-                    _buildActionCard(
-                      context,
-                      title: 'Product Catalog',
-                      subtitle: 'View and edit inventory',
-                      icon: Icons.inventory,
-                      color: Colors.teal,
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const ProductListScreen(),
-                        ),
-                      ),
-                    ),
-                    _buildActionCard(
-                      context,
-                      title: 'Low Stock Alerts',
-                      subtitle: 'Needs attention',
-                      icon: Icons.warning_amber_rounded,
-                      color: Colors.orange,
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const LowStockAlertsScreen(),
-                        ),
-                      ),
-                    ),
-                  ],
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.inventory_2, size: 60, color: Colors.white38),
+                      const SizedBox(height: 8),
+                      Text('ID: $uId', style: const TextStyle(color: Colors.white70, fontSize: 12)),
+                      const SizedBox(height: 20),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+          const SliverToBoxAdapter(
+            child: Padding(
+              padding: EdgeInsets.all(16.0),
+              child: SalesSummaryWidget(),
+            ),
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate([
+                _buildActionCard(
+                  context,
+                  title: 'Sales Analytics',
+                  subtitle: 'View revenue and top products',
+                  icon: Icons.analytics,
+                  color: Colors.indigo,
+                  onTap: () => context.push('/analytics'),
+                ),
+                _buildActionCard(
+                  context,
+                  title: 'Transaction History',
+                  subtitle: 'View and void past orders',
+                  icon: Icons.history,
+                  color: Colors.purple,
+                  onTap: () => context.push('/history'),
+                ),
+                _buildActionCard(
+                  context,
+                  title: 'Product Catalog',
+                  subtitle: 'View and edit inventory',
+                  icon: Icons.inventory,
+                  color: Colors.teal,
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const ProductListScreen(),
+                    ),
+                  ),
+                ),
+                _buildActionCard(
+                  context,
+                  title: 'Low Stock Alerts',
+                  subtitle: 'Needs attention',
+                  icon: Icons.warning_amber_rounded,
+                  color: Colors.orange,
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const LowStockAlertsScreen(),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 30),
+              ]),
+            ),
+          ),
+        ],
       ),
     );
   }

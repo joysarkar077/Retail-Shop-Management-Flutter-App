@@ -17,103 +17,100 @@ class AdminDashboard extends StatelessWidget {
         : '';
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Admin Dashboard | $uId',
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-        ),
-        backgroundColor: Colors.blue[800],
-        foregroundColor: Colors.white,
-        elevation: 0,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            tooltip: 'Sign Out',
-            onPressed: () {
-              context.read<AuthProvider>().logout();
-              context.go('/login');
-            },
-          ),
-        ],
-      ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.blue[800]!, Colors.blue[400]!],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
-        child: Column(
-          children: [
-            const Padding(
-              padding: EdgeInsets.all(24.0),
-              child: Text(
-                'Regional Overview',
-                style: TextStyle(
-                  fontSize: 28,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
+      backgroundColor: Colors.grey[50],
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            expandedHeight: 200.0,
+            floating: false,
+            pinned: true,
+            backgroundColor: const Color(0xFF2E7D32),
+            foregroundColor: Colors.white,
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.logout),
+                tooltip: 'Sign Out',
+                onPressed: () {
+                  context.read<AuthProvider>().logout();
+                  context.go('/login');
+                },
               ),
-            ),
-            Expanded(
-              child: Container(
-                padding: const EdgeInsets.all(24),
+            ],
+            flexibleSpace: FlexibleSpaceBar(
+              title: const Text(
+                'Admin Dashboard',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              ),
+              background: Container(
                 decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30),
+                  gradient: LinearGradient(
+                    colors: [Color(0xFF1B5E20), Color(0xFF4CAF50)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
                   ),
                 ),
-                child: ListView(
-                  children: [
-                    _buildActionCard(
-                      context,
-                      title: 'Manage Shops',
-                      subtitle: 'Review or add a new retail branch',
-                      icon: Icons.store_mall_directory,
-                      color: Colors.blue,
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const ShopListScreen(),
-                        ),
-                      ),
-                    ),
-                    _buildActionCard(
-                      context,
-                      title: 'Global User Management',
-                      subtitle: 'Add or modify staff and owners',
-                      icon: Icons.people_alt,
-                      color: Colors.purple,
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const RegisterUserScreen(),
-                        ),
-                      ),
-                    ),
-                    _buildActionCard(
-                      context,
-                      title: 'Manage Products',
-                      subtitle: 'Access the global product catalog',
-                      icon: Icons.inventory_2,
-                      color: Colors.teal,
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const ProductListScreen(),
-                        ),
-                      ),
-                    ),
-                  ],
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.admin_panel_settings, size: 60, color: Colors.white38),
+                      const SizedBox(height: 8),
+                      Text('ID: $uId', style: const TextStyle(color: Colors.white70, fontSize: 12)),
+                      const SizedBox(height: 20),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate([
+                _buildActionCard(
+                  context,
+                  title: 'Manage Shops',
+                  subtitle: 'Review or add a new retail branch',
+                  icon: Icons.store_mall_directory,
+                  color: Colors.blue,
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const ShopListScreen(),
+                    ),
+                  ),
+                ),
+                _buildActionCard(
+                  context,
+                  title: 'Global User Management',
+                  subtitle: 'Add or modify staff and owners',
+                  icon: Icons.people_alt,
+                  color: Colors.purple,
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const RegisterUserScreen(),
+                    ),
+                  ),
+                ),
+                _buildActionCard(
+                  context,
+                  title: 'Manage Products',
+                  subtitle: 'Access the global product catalog',
+                  icon: Icons.inventory_2,
+                  color: Colors.teal,
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const ProductListScreen(),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 30),
+              ]),
+            ),
+          ),
+        ],
       ),
     );
   }
