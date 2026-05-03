@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import '../../providers/auth_provider.dart';
 import '../inventory/product_list_screen.dart';
+import '../../widgets/sales_summary_widget.dart';
 
 class EmployeeDashboard extends StatelessWidget {
   const EmployeeDashboard({super.key});
@@ -55,6 +56,8 @@ class EmployeeDashboard extends StatelessWidget {
                 ),
               ),
             ),
+            const SalesSummaryWidget(darkTheme: true),
+            const SizedBox(height: 16),
             Expanded(
               child: Container(
                 padding: const EdgeInsets.all(24),

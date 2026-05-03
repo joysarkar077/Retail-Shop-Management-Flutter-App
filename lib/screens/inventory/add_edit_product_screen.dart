@@ -149,16 +149,18 @@ class _AddEditProductScreenState extends State<AddEditProductScreen> {
         }
       } else {
         final err = jsonDecode(response.body)['message'] ?? 'Failed operation';
-        if (mounted)
+        if (mounted) {
           ScaffoldMessenger.of(
             context,
           ).showSnackBar(SnackBar(content: Text(err)));
+        }
       }
     } catch (e) {
-      if (mounted)
+      if (mounted) {
         ScaffoldMessenger.of(
           context,
         ).showSnackBar(const SnackBar(content: Text('Network Error')));
+      }
     }
 
     if (mounted) setState(() => _isLoading = false);

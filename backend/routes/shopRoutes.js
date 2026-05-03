@@ -4,7 +4,7 @@ const { createShop, getAllShops, getShopById, updateShop } = require('../control
 const { verifyToken, requireRole } = require('../middleware/authMiddleware');
 
 router.get('/', verifyToken, requireRole('superadmin', 'admin'), getAllShops);
-router.get('/:id', verifyToken, requireRole('superadmin', 'admin', 'owner', 'manager'), getShopById);
+router.get('/:id', verifyToken, requireRole('superadmin', 'admin', 'owner', 'manager', 'employee'), getShopById);
 router.post('/', verifyToken, requireRole('superadmin', 'admin'), createShop);
 router.put('/:id', verifyToken, requireRole('superadmin', 'admin', 'owner', 'manager'), updateShop);
 

@@ -20,7 +20,9 @@ class PdfGenerator {
     Map<String, dynamic>? shopDetails;
     try {
       shopDetails = await ShopService.getShopDetails(order['shopId']);
-    } catch (_) {}
+    } catch (e) {
+      print('Failed to get shop details: $e');
+    }
 
     final shopName = shopDetails?['name']?.toUpperCase() ?? 'STORE NAME';
     final shopPhone = shopDetails?['phone'] ?? '(888) 888 - 8888';

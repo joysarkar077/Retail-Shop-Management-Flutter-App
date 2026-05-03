@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../services/product_service.dart';
 
 class StockAdjustmentSheet extends StatefulWidget {
   final String productId;
@@ -20,6 +21,53 @@ class _StockAdjustmentSheetState extends State<StockAdjustmentSheet> {
   String _selectedType = 'restock';
   final _quantityController = TextEditingController();
   final _noteController = TextEditingController();
+
+  bool _isAdjusting = false;
+
+  Future<void> _applyAdjustment() async {
+    final quantityStr = _quantityController.text;
+    final note = _noteController.text;
+
+    if (quantityStr.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter a quantity')),
+      );
+      return;
+    }
+
+    final quantity = int.tryParse(quantityStr);
+    if (quantity == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Invalid quantity')),
+      );
+      return;
+    }
+
+    setState(() => _isAdjusting = true);
+
+    try {
+      await ProductService.adjustStock(
+        widget.productId,
+        quantity,
+        _selectedType,
+        note,
+      );
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Stock adjusted successfully')),
+        );
+        Navigator.pop(context, true); // True implies success
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red),
+        );
+        setState(() => _isAdjusting = false);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,13 +138,20 @@ class _StockAdjustmentSheetState extends State<StockAdjustmentSheet> {
               padding: const EdgeInsets.symmetric(vertical: 16),
               backgroundColor: Colors.green[800],
             ),
-            onPressed: () {
-              Navigator.pop(context, true); // True implies success
-            },
-            child: const Text(
-              'Apply Adjustment',
-              style: TextStyle(color: Colors.white, fontSize: 16),
-            ),
+            onPressed: _isAdjusting ? null : _applyAdjustment,
+            child: _isAdjusting
+                ? const SizedBox(
+                    height: 20,
+                    width: 20,
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                      strokeWidth: 2,
+                    ),
+                  )
+                : const Text(
+                    'Apply Adjustment',
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
           ),
         ],
       ),
