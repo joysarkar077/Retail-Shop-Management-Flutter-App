@@ -64,8 +64,8 @@ const getAllShops = async (req, res) => {
 
 const getShopById = async (req, res) => {
   const { id } = req.params;
-  // Security check: if owner/manager, they can only view their own shop
-  if (['owner', 'manager'].includes(req.user.role)) {
+  // Security check: if owner/manager/employee, they can only view their own shop
+  if (['owner', 'manager', 'employee'].includes(req.user.role)) {
     if (req.user.shopId.toString() !== id) {
       return res.status(403).json({ message: 'Forbidden: You can only view your own shop.' });
     }

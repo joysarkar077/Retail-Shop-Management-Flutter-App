@@ -23,8 +23,13 @@ const getSummary = async (req, res) => {
   const { start, end } = getDateRange(period);
 
   try {
+    const matchStage = { shopId: new mongoose.Types.ObjectId(shopId.toString()), status: 'completed', transactionDate: { $gte: start, $lte: end } };
+    if (req.user.role === 'employee') {
+      matchStage.staffId = new mongoose.Types.ObjectId(req.user._id.toString());
+    }
+
     const result = await Order.aggregate([
-      { $match: { shopId: new mongoose.Types.ObjectId(shopId), status: 'completed', transactionDate: { $gte: start, $lte: end } } },
+      { $match: matchStage },
       { $group: {
           _id: null,
           totalRevenue: { $sum: "$totalAmount" },
@@ -52,7 +57,7 @@ const getRevenueSeries = async (req, res) => {
 
   try {
     const series = await Order.aggregate([
-      { $match: { shopId: new mongoose.Types.ObjectId(shopId), status: 'completed', transactionDate: { $gte: start, $lte: end } } },
+      { $match: { shopId: new mongoose.Types.ObjectId(shopId.toString()), status: 'completed', transactionDate: { $gte: start, $lte: end } } },
       { $group: {
           _id: { $dateToString: { format: "%Y-%m-%d", date: "$transactionDate" } },
           revenue: { $sum: "$totalAmount" },
@@ -73,7 +78,7 @@ const getTopProducts = async (req, res) => {
 
   try {
     const products = await Order.aggregate([
-      { $match: { shopId: new mongoose.Types.ObjectId(shopId), status: 'completed' } },
+      { $match: { shopId: new mongoose.Types.ObjectId(shopId.toString()), status: 'completed' } },
       { $unwind: "$items" },
       { $group: {
           _id: "$items.productName",
@@ -97,7 +102,7 @@ const getPaymentBreakdown = async (req, res) => {
 
   try {
     const breakdown = await Order.aggregate([
-      { $match: { shopId: new mongoose.Types.ObjectId(shopId), status: 'completed', transactionDate: { $gte: start, $lte: end } } },
+      { $match: { shopId: new mongoose.Types.ObjectId(shopId.toString()), status: 'completed', transactionDate: { $gte: start, $lte: end } } },
       { $group: {
           _id: "$paymentMethod",
           revenue: { $sum: "$totalAmount" },

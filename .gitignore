@@ -11,7 +11,7 @@
 .svn/
 .swiftpm/
 migrate_working_dir/
-# .docs/ is no longer ignored to allow for system documentation.
+# Ignore documentation folder
 .docs/
 test/
 

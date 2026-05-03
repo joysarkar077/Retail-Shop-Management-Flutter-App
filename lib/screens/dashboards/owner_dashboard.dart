@@ -67,7 +67,7 @@ class OwnerDashboard extends StatelessWidget {
           const SliverToBoxAdapter(
             child: Padding(
               padding: EdgeInsets.all(16.0),
-              child: SalesSummaryWidget(),
+              child: SalesSummaryWidget(darkTheme: false),
             ),
           ),
           SliverPadding(

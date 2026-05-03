@@ -27,4 +27,35 @@ class ProductService {
       throw Exception('Failed to search products: $e');
     }
   }
+
+  static Future<List<dynamic>> getLowStockAlerts() async {
+    try {
+      final response = await ApiService.get('${ApiConfig.baseUrl}/products/alerts/low-stock');
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      }
+      return [];
+    } catch (e) {
+      throw Exception('Failed to fetch low stock alerts: $e');
+    }
+  }
+
+  static Future<void> adjustStock(String productId, int quantityChanged, String changeType, String note) async {
+    try {
+      final response = await ApiService.patch(
+        '${ApiConfig.baseUrl}/products/$productId/stock',
+        {
+          'quantityChanged': quantityChanged,
+          'changeType': changeType,
+          'note': note,
+        },
+      );
+      if (response.statusCode != 200) {
+        final error = jsonDecode(response.body);
+        throw Exception(error['message'] ?? 'Failed to adjust stock');
+      }
+    } catch (e) {
+      throw Exception('Failed to adjust stock: $e');
+    }
+  }
 }
